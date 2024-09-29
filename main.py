@@ -1,6 +1,6 @@
 class VernamCipherWithCheckerboard:
     def __init__(self):
-        # Створюємо таблицю стиснення
+        # таблиця стиснення
         self.checkerboard = {
             'А': '1', 'И': '2', 'Т': '3', 'Е': '4', 'С': '5', 'Н': '6', 'О': '7',
             'Б': '81', 'В': '82', 'Г': '83', 'Д': '84', 'Ж': '85', 'З': '86', 'К': '87', 'Л': '88', 'М': '89',
@@ -10,7 +10,7 @@ class VernamCipherWithCheckerboard:
             'Ь': '01', 'Э': '02', 'Ю': '03', 'Я': '04', ' ': '00'
         }
 
-        # Створюємо зворотну таблицю для дешифрування
+        # зворотна таблиця для дешифрування
         self.reverse_checkerboard = {v: k for k, v in self.checkerboard.items()}
 
     # Перетворення тексту у цифри за таблицею стиснення
@@ -52,7 +52,7 @@ class VernamCipherWithCheckerboard:
             encrypted_digits.append(str((int(msg_digit) + int(key_digit)) % 10))
         return ''.join(encrypted_digits)
 
-    # Дешифрування відніманням по модулю 10
+    # Дешифрування відніманням
     def decrypt(self, encrypted_message, key):
         key_digits = self.text_to_digits(self.extend_key(key, len(encrypted_message)))
         decrypted_digits = []
@@ -65,12 +65,9 @@ class VernamCipherWithCheckerboard:
         decrypted_digits = self.decrypt(encrypted_message, key)
         return self.digits_to_text(decrypted_digits)
 
-
-# Основна функція для тестування
 def main():
     cipher = VernamCipherWithCheckerboard()
 
-    # Приклад повідомлення та ключа
     message = "Привет"
     key = "лес"
 
@@ -89,8 +86,6 @@ def main():
     decrypted_message = cipher.digits_to_text(decrypted_message_digits)
     print(f"Розшифроване повідомлення: {decrypted_message}")
 
-
-    # Вибираємо варіант з таблиці
     messages = {
         1: ('6719882196864085864979275245', 'лес'),
         2: ('3652576465291928550126959788', 'сол'),
@@ -104,17 +99,13 @@ def main():
         10: ('637682601023464285754583240282', 'дэв')
     }
 
-    # Вибираємо варіант за номером
-    variant_number = 1  # Тут обираємо потрібний варіант
+    variant_number = 1  # обираємо варіант
     encrypted_message, key = messages[variant_number]
 
-    # Дешифрування
     decrypted_message = cipher.full_decrypt(encrypted_message, key)
 
-    # Виведення результату
-    print(f"Розшифроване повідомлення (варіант {variant_number}): {decrypted_message}")
+    print(f"Розшифроване повідомлення (за варіантом {variant_number}): {decrypted_message}")
 
 
-# Запуск програми
 if __name__ == "__main__":
     main()
